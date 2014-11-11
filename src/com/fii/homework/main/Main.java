@@ -4,79 +4,61 @@
  */
 package com.fii.homework.main;
 
+import java.io.IOException;
 import java.util.Scanner;
 
-import com.fii.homework.model.Player;
+import com.fii.homework.model.Game;
 
 /**
  *
  * @author Robert
  */
-public class Main {   
-
-
-   
+public class Main {
 
     /**
      * @param args
      *            the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
-        Main joc = new Main();
+        String playersCountS = args.length > 0 ? args[0] : "";
+        String wordLengthS = args.length > 1 ? args[1] : "";
 
-//        if (args.length == 0) {
-//            System.err.println("Nu sunt destule argumente!");
-//            joc.setN("asd");
-//            joc.setP("asd");
-//        }
-//
-//        if (args.length == 1) {
-//            System.err.println("Nu sunt destule argumente!");
-//            joc.setN(args[0]);
-//            joc.setP("asd");
-//        }
-//
-//        if (args.length >= 2) {
-//            joc.setN(args[0]);
-//            joc.setP(args[1]);
-//        }
+        int playersCount = 2, wordLength = 1;
 
-        
-//        StringBuilder arg = new StringBuilder(value);
-//
-//        try {
-//            playerNr = Integer.parseInt(arg.toString());
-//        } catch (NumberFormatException e) {
-//            System.out.println("Valoarea introdusa nu este un numar natural!");
-//        }
-//
-//        while (!isInt(arg.toString())) {
-//            arg.delete(0, arg.length());
-//
-//            System.out.println("Va rugam introduceti un numar natural(n):");
-//            Scanner scan = new Scanner(System.in);
-//            arg.insert(0, scan.nextLine());
-//        }
-        
-//        StringBuilder arg = new StringBuilder(value);
-//
-//        try {
-//            wordLength = Integer.parseInt(arg.toString());
-//        } catch (NumberFormatException e) {
-//            System.out.println("Valoarea introdusa nu este un numar natural!");
-//        }
-//
-//        while (!isInt(arg.toString())) {
-//            arg.delete(0, arg.length());
-//
-//            System.out.println("Va rugam introduceti un numar natural(p):");
-//            Scanner scan = new Scanner(System.in);
-//            arg.insert(0, scan.nextLine());
-//        }
+        Scanner scanner = new Scanner(System.in);
+        playersCount = returnNumberInputForLabel(playersCountS,
+                "numarul de jucatori", scanner);
+        wordLength = returnNumberInputForLabel(wordLengthS,
+                "lungimea cuvantului", scanner);
+        scanner.close();
+        scanner = null;
+        Game game = new Game(playersCount, wordLength);
+        game.startGame();
+    }
 
-        
-        
-       
+    /**
+     * @param playersCountS
+     */
+    private static int returnNumberInputForLabel(String value, String label,
+            Scanner scan) {
+        String input = value;
+        int intValue = 0;
+        boolean test = true;
+        while (test) {
+            try {
+                intValue = Integer.parseInt(input);
+                test = false;
+            } catch (NumberFormatException e) {
+                System.out
+                        .println("Va rugam introduceti un numar natural pentru "
+                                + label + ":");
+                if (scan.hasNextLine()) {
+                    input = scan.nextLine();
+                } else {
+                    test = false;
+                }
+            }
+        }
+        return intValue;
     }
 }

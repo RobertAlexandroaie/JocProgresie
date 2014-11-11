@@ -11,15 +11,15 @@ package com.fii.homework.model;
 public class Player {
     private int[] hand;
     private StringBuilder word;
-    private StringBuilder win;
+    private StringBuilder winningWord;
     public int ratio;
 
     /**
-     * Contructor
+     * 
      */
     public Player() {
         word = new StringBuilder();
-        win = new StringBuilder();
+        winningWord = new StringBuilder();
         hand = new int[26];
         for (int i = 0; i < 26; i++)
             hand[i] = 0;
@@ -28,12 +28,12 @@ public class Player {
 
     /**
      * 
-     * @param card
+     * @param letter
      *            the card added in user's hand
      */
-    public void addLetter(char card) {
-        hand[card - 'A']++;
-        word.append(card);
+    public void addLetter(char letter) {
+        hand[letter - 'A']++;
+        word.append(letter);
     }
 
     /**
@@ -48,56 +48,56 @@ public class Player {
 
     /**
      * 
-     * @param poz
+     * @param position
      *            indicele primei litere din progresie, daca exista
-     * @param lenCuvant
+     * @param wordLength
      *            lungimea progresiei
      * @return
      */
-    public boolean isProgression(int poz, int lenCuvant) {
+    public boolean isProgression(int position, int wordLength) {
         int i;
-        int c;
+        int letter;
         ratio = 1;
-        boolean ret = true;
-        int[] viz = new int[26];
+        boolean isProgression = true;
+        int[] visited = new int[26];
 
         for (ratio = 1; ratio <= 25; ratio++) {
-            ret = true;
-            win = new StringBuilder();
-            win.append((char) (poz + 'A'));
-            initVisited(viz);
-            viz[poz] = 1;
+            isProgression = true;
+            winningWord = new StringBuilder();
+            winningWord.append((char) (position + 'A'));
+            initVisited(visited);
+            visited[position] = 1;
 
-            for (i = (poz + ratio) % 26, c = 1; c < lenCuvant && i != poz; c++, i = (i + ratio) % 26) {
-                if (hand[i] == 0 && viz[i] >= hand[i]) {
-                    ret = false;
+            for (i = (position + ratio) % 26, letter = 1; letter < wordLength
+                    && i != position; letter++, i = (i + ratio) % 26) {
+                if (hand[i] == 0 && visited[i] >= hand[i]) {
+                    isProgression = false;
                     break;
                 } else {
-                    viz[i]++;
-                    win.append((char) (i + 'A'));
+                    visited[i]++;
+                    winningWord.append((char) (i + 'A'));
                 }
             }
 
-            if (ret == true && c == lenCuvant)
-                return ret;
+            if (isProgression == true && letter == wordLength)
+                return isProgression;
         }
-        return ret;
+        return isProgression;
     }
 
     /**
      * Verifica daca jucatorul curent este castigator
      * 
-     * @param lenCuvant
+     * @param wordLength
      *            lungimea progresiei
      * @return
      */
-    public boolean Castigator(int lenCuvant) {
-        int i;
-        for (i = 0; i < word.length(); i++) {
-            if (isProgression(word.charAt(i) - 'A', lenCuvant) == true)
+    public boolean isWinner(int wordLength) {
+        for (int i = 0; i < word.length(); i++) {
+            if (isProgression(word.charAt(i) - 'A', wordLength))
                 return true;
         }
-        win.delete(0, win.length());
+        winningWord.delete(0, winningWord.length());
         return false;
     }
 
@@ -105,7 +105,7 @@ public class Player {
      * 
      * @return cuvantul format pana in momentul apelului
      */
-    public StringBuilder getCuvant() {
+    public StringBuilder getWord() {
         return word;
     }
 
@@ -114,7 +114,7 @@ public class Player {
      * 
      * @return cuvantul cu care a castigat
      */
-    public StringBuilder getWin() {
-        return win;
+    public StringBuilder getWinningWord() {
+        return winningWord;
     }
 }

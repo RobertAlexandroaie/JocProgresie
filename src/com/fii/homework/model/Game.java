@@ -3,8 +3,6 @@
  */
 package com.fii.homework.model;
 
-import java.util.Scanner;
-
 /**
  * @author ralexandroaie
  *
@@ -23,6 +21,12 @@ public class Game {
         buildPlayers();
     }
 
+    public Game(int playersCount, int wordLength) throws NumberFormatException {
+        setPlayersCount(playersCount);
+        setWordLength(wordLength);
+        buildPlayers();
+    }
+
     /**
      * 
      */
@@ -37,29 +41,26 @@ public class Game {
      * 
      * @return random char from A to Z
      */
-    private char buildRandomCard() {
-        char card;
+    private char buildRandomLetter() {
+        char letter;
         double randomNumber;
 
         randomNumber = Math.random();
-        card = (char) (65 + (char) (randomNumber * 26));
+        letter = (char) (65 + (char) (randomNumber * 26));
 
-        return card;
+        return letter;
     }
 
     public void buildPlayerNumber(String value) throws NumberFormatException {
-        setPlayerNr(Integer.parseInt(value));
+        setPlayersCount(Integer.parseInt(value));
     }
 
     /**
-     * Atribuie jocului lungimea progresiei
      * 
      * @param value
-     *            sirul atribuit ca valoare
      */
     private void buildWordLength(String value) {
-      
-        wordLength = Integer.parseInt(arg.toString());
+        wordLength = Integer.parseInt(value);
     }
 
     public void startGame() {
@@ -69,17 +70,17 @@ public class Game {
         while (true) {
             System.out.println("Runda " + round);
             for (int i = 0; i < playersCount; i++) {
-                char randomCard = buildRandomCard();
-                players[i].addLetter(randomCard);
+                char randomLetter = buildRandomLetter();
+                players[i].addLetter(randomLetter);
                 System.out.println("Jucatorul " + (i + 1)
-                        + " a primit cartea: " + randomCard + ": "
-                        + players[i].getCuvant());
+                        + " a primit cartea: " + randomLetter + ": "
+                        + players[i].getWord());
             }
 
-            for (int i = 0; i < joc.n; i++) {
-                if (players[i].Castigator(joc.p)) {
+            for (int i = 0; i < playersCount; i++) {
+                if (players[i].isWinner(wordLength)) {
                     System.out.println("Jucatorul " + (i + 1) + " a castigat: "
-                            + players[i].getWin());
+                            + players[i].getWinningWord());
                     System.out.println("Ratia: " + players[i].ratio);
                     gameover = true;
                     break;
