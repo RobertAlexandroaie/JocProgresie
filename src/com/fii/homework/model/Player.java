@@ -9,6 +9,18 @@ package com.fii.homework.model;
  * @author Robert
  */
 public class Player {
+    /**
+     * 
+     */
+    private static final int MAX_CARDS = 26;
+    /**
+     * 
+     */
+    private static final int MAX_RATIO = 25;
+    /**
+     * 
+     */
+    private static final int MIN_RATIO = 1;
     private int[] hand;
     private StringBuilder word;
     private StringBuilder winningWord;
@@ -18,12 +30,19 @@ public class Player {
      * 
      */
     public Player() {
+        ratio = 0;
         word = new StringBuilder();
         winningWord = new StringBuilder();
-        hand = new int[26];
-        for (int i = 0; i < 26; i++)
+        buildHand();
+    }
+
+    /**
+     * 
+     */
+    private void buildHand() {
+        hand = new int[MAX_CARDS];
+        for (int i = 0; i < MAX_CARDS; i++)
             hand[i] = 0;
-        ratio = 0;
     }
 
     /**
@@ -32,8 +51,15 @@ public class Player {
      *            the card added in user's hand
      */
     public void addLetter(char letter) {
-        hand[letter - 'A']++;
+        markLetter(letter);
         word.append(letter);
+    }
+
+    /**
+     * @param letter
+     */
+    private void markLetter(char letter) {
+        hand[letter - 'A']++;
     }
 
     /**
@@ -42,34 +68,33 @@ public class Player {
      * 
      */
     private void initVisited(int[] visited) {
-        for (int i = 0; i < 26; i++)
+        for (int i = 0; i < MAX_CARDS; i++)
             visited[i] = 0;
     }
 
     /**
      * 
-     * @param position
+     * @param startLetter
      *            indicele primei litere din progresie, daca exista
      * @param wordLength
      *            lungimea progresiei
      * @return
      */
-    public boolean isProgression(int position, int wordLength) {
-        int i;
-        int letter;
+    public boolean isProgression(int startLetter, int wordLength) {
         ratio = 1;
         boolean isProgression = true;
-        int[] visited = new int[26];
+        int[] visited = new int[MAX_CARDS];
 
-        for (ratio = 1; ratio <= 25; ratio++) {
+        for (ratio = MIN_RATIO; ratio <= MAX_RATIO; ratio++) {
             isProgression = true;
             winningWord = new StringBuilder();
-            winningWord.append((char) (position + 'A'));
+            winningWord.append((char) (startLetter + 'A'));
             initVisited(visited);
-            visited[position] = 1;
-
-            for (i = (position + ratio) % 26, letter = 1; letter < wordLength
-                    && i != position; letter++, i = (i + ratio) % 26) {
+            visited[startLetter] = 1;
+            int i, letterPosition;
+            for (i = (startLetter + ratio) % MAX_CARDS, letterPosition = 1; letterPosition < wordLength
+                    && i != startLetter; letterPosition++, i = (i + ratio)
+                    % MAX_CARDS) {
                 if (hand[i] == 0 && visited[i] >= hand[i]) {
                     isProgression = false;
                     break;
@@ -77,10 +102,9 @@ public class Player {
                     visited[i]++;
                     winningWord.append((char) (i + 'A'));
                 }
+                if (isProgression == true && letterPosition == wordLength)
+                    return isProgression;
             }
-
-            if (isProgression == true && letter == wordLength)
-                return isProgression;
         }
         return isProgression;
     }
