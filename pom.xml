@@ -5,4 +5,20 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>ProgressionGame</name>
   <description>A user wins when he forms n letters in arithmetic progression</description>
+  <dependencies>
+  	<dependency>
+  		<groupId>junit</groupId>
+  		<artifactId>junit</artifactId>
+  		<version>4.7</version>
+  	</dependency>
+  </dependencies>
+  <dependencyManagement>
+  	<dependencies>
+  		<dependency>
+  			<groupId>junit</groupId>
+  			<artifactId>junit</artifactId>
+  			<version>4.7</version>
+  		</dependency>
+  	</dependencies>
+  </dependencyManagement>
 </project>
