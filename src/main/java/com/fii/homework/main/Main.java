@@ -4,7 +4,6 @@
  */
 package com.fii.homework.main;
 
-import java.io.IOException;
 import java.util.Scanner;
 
 import com.fii.homework.model.Game;

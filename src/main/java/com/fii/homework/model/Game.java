@@ -51,44 +51,28 @@ public class Game {
         return letter;
     }
 
-    public void buildPlayerNumber(String value) throws NumberFormatException {
-        setPlayersCount(Integer.parseInt(value));
-    }
-
-    /**
-     * 
-     * @param value
-     */
-    private void buildWordLength(String value) {
-        wordLength = Integer.parseInt(value);
-    }
-
     public void startGame() {
         int round = 1;
         boolean gameover = false;
 
-        while (true) {
-            System.out.println("Runda " + round);
-            for (int i = 0; i < playersCount; i++) {
+        while (!gameover) {
+            System.out.println("Runda " + round++);
+            for (int i = 0; i < playersCount && !gameover; i++) {
                 char randomLetter = buildRandomLetter();
                 players[i].addLetter(randomLetter);
                 System.out.println("Jucatorul " + (i + 1)
                         + " a primit cartea: " + randomLetter + ": "
                         + players[i].getWord());
-            }
 
-            for (int i = 0; i < playersCount; i++) {
                 if (players[i].isWinner(wordLength)) {
-                    System.out.println("Jucatorul " + (i + 1) + " a castigat: "
+                    System.out.println("==================== GAME OVER ========================");
+                    System.out.println("Jucatorul " + (i + 1) + " a castigat. Cuvantul format: "
                             + players[i].getWinningWord());
-                    System.out.println("Ratia: " + players[i].ratio);
+                    System.out.println("Ratia: " + players[i].ratio());
                     gameover = true;
-                    break;
                 }
             }
-            if (gameover)
-                break;
-            round++;
+
         }
     }
 

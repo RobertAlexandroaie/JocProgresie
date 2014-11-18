@@ -3,7 +3,7 @@
  */
 package com.fii.homework.model;
 
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import org.junit.After;
 import org.junit.Before;
@@ -14,12 +14,14 @@ import org.junit.Test;
  *
  */
 public class PlayerTest {
+    private Player playerUnderTest;
 
     /**
      * @throws java.lang.Exception
      */
     @Before
     public void setUp() throws Exception {
+        playerUnderTest = new Player();
     }
 
     /**
@@ -32,41 +34,134 @@ public class PlayerTest {
     /**
      * Test method for {@link com.fii.homework.model.Player#addLetter(char)}.
      */
-    @Test
-    public void testAddLetter() {
-        fail("Not yet implemented"); // TODO
+    @Test(expected = IllegalArgumentException.class)
+    public void testAddLetterWithNumber() {
+        playerUnderTest.addLetter('2');
     }
-
+    
     /**
-     * Test method for {@link com.fii.homework.model.Player#isProgression(int, int)}.
+     * Test method for {@link com.fii.homework.model.Player#addLetter(char)}.
      */
     @Test
-    public void testIsProgression() {
-        fail("Not yet implemented"); // TODO
+    public void testAddLetterWithLowerCase() {
+        playerUnderTest.addLetter('a');
+        assertTrue(playerUnderTest.getWord().toString().endsWith("A"));
+    }
+
+
+    /**
+     * Test method for {@link com.fii.homework.model.Player#addLetter(char)}.
+     */
+    @Test
+    public void testAddLetterCorrectArg() {
+        playerUnderTest.addLetter('A');
+        assertTrue(playerUnderTest.getWord().toString().endsWith("A"));
     }
 
     /**
      * Test method for {@link com.fii.homework.model.Player#isWinner(int)}.
      */
     @Test
-    public void testIsWinner() {
-        fail("Not yet implemented"); // TODO
+    public void testIsWinnerWithNoWinningWord() {
+        playerUnderTest.addLetter('a');
+        playerUnderTest.addLetter('b');
+        playerUnderTest.addLetter('d');
+        assertFalse(playerUnderTest.isWinner(3));
     }
+    
+
+    /**
+     * Test method for {@link com.fii.homework.model.Player#isWinner(int)}.
+     */
+    @Test
+    public void testIsWinnerWithWordExpectedBiggerThanCurrentWord() {
+        playerUnderTest.addLetter('a');
+        playerUnderTest.addLetter('b');
+        playerUnderTest.addLetter('c');
+        assertFalse(playerUnderTest.isWinner(4));
+    }
+
+    
+
+    /**
+     * Test method for {@link com.fii.homework.model.Player#isWinner(int)}.
+     */
+    @Test
+    public void testIsWinnerWithWinningWord() {
+        playerUnderTest.addLetter('a');
+        playerUnderTest.addLetter('b');
+        playerUnderTest.addLetter('c');
+        assertFalse(playerUnderTest.isWinner(3));
+    }
+
 
     /**
      * Test method for {@link com.fii.homework.model.Player#getWord()}.
      */
     @Test
     public void testGetWord() {
-        fail("Not yet implemented"); // TODO
+        playerUnderTest.addLetter('a');
+        playerUnderTest.addLetter('b');
+        playerUnderTest.addLetter('c');
+        assertTrue(playerUnderTest.getWord().toString().equals("ABC"));
     }
 
     /**
      * Test method for {@link com.fii.homework.model.Player#getWinningWord()}.
      */
     @Test
-    public void testGetWinningWord() {
-        fail("Not yet implemented"); // TODO
+    public void testGetWinningWordWithCorrectWord() {
+        playerUnderTest.addLetter('a');
+        playerUnderTest.addLetter('b');
+        playerUnderTest.addLetter('c');
+        assertTrue(playerUnderTest.isWinner(3));
+        assertTrue(playerUnderTest.getWinningWord().toString().equals("ABC"));
+    }
+    
+    /**
+     * Test method for {@link com.fii.homework.model.Player#getWinningWord()}.
+     */
+    @Test
+    public void testGetWinningWordWithoutCheck() {
+        playerUnderTest.addLetter('a');
+        playerUnderTest.addLetter('y');
+        playerUnderTest.addLetter('x');
+        assertFalse(playerUnderTest.getWinningWord().toString().equals("YX"));
+    }
+    
+    /**
+     * Test method for {@link com.fii.homework.model.Player#getWinningWord()}.
+     */
+    @Test
+    public void testGetWinningWordWithCorrectWordAndMoreLetters() {
+        playerUnderTest.addLetter('a');
+        playerUnderTest.addLetter('y');
+        playerUnderTest.addLetter('x');
+        assertTrue(playerUnderTest.isWinner(2));
+        assertTrue(playerUnderTest.getWinningWord().toString().equals("YX"));
     }
 
+    /**
+     * Test method for {@link com.fii.homework.model.Player#getWinningWord()}.
+     */
+    @Test
+    public void testGetWinningWordWithCorrectWordAndBigRatio() {
+        playerUnderTest.addLetter('z');
+        playerUnderTest.addLetter('y');
+        playerUnderTest.addLetter('x');
+        assertTrue(playerUnderTest.isWinner(3));
+        assertTrue(playerUnderTest.getWinningWord().toString().equals("ZYX"));
+    }
+
+    /**
+     * Test method for {@link com.fii.homework.model.Player#getWinningWord()}.
+     */
+    @Test
+    public void testGetWinningWordWithIncorrectWord() {
+        playerUnderTest.addLetter('a');
+        playerUnderTest.addLetter('b');
+        playerUnderTest.addLetter('d');
+        assertFalse(playerUnderTest.isWinner(3));
+        assertTrue(playerUnderTest.getWinningWord().toString().equals(""));
+    }
 }
