@@ -45,7 +45,7 @@ public class PlayerTest {
     @Test
     public void testAddLetterWithLowerCase() {
         playerUnderTest.addLetter('a');
-        assertTrue(playerUnderTest.getWord().toString().endsWith("A"));
+        assertTrue(playerUnderTest.getWord().endsWith("A"));
     }
 
 
@@ -55,7 +55,7 @@ public class PlayerTest {
     @Test
     public void testAddLetterCorrectArg() {
         playerUnderTest.addLetter('A');
-        assertTrue(playerUnderTest.getWord().toString().endsWith("A"));
+        assertTrue(playerUnderTest.getWord().endsWith("A"));
     }
 
     /**
@@ -91,7 +91,7 @@ public class PlayerTest {
         playerUnderTest.addLetter('a');
         playerUnderTest.addLetter('b');
         playerUnderTest.addLetter('c');
-        assertFalse(playerUnderTest.isWinner(3));
+        assertTrue(playerUnderTest.isWinner(3));
     }
 
 
@@ -103,7 +103,7 @@ public class PlayerTest {
         playerUnderTest.addLetter('a');
         playerUnderTest.addLetter('b');
         playerUnderTest.addLetter('c');
-        assertTrue(playerUnderTest.getWord().toString().equals("ABC"));
+        assertTrue(playerUnderTest.getWord().equals("ABC"));
     }
 
     /**
@@ -115,7 +115,7 @@ public class PlayerTest {
         playerUnderTest.addLetter('b');
         playerUnderTest.addLetter('c');
         assertTrue(playerUnderTest.isWinner(3));
-        assertTrue(playerUnderTest.getWinningWord().toString().equals("ABC"));
+        assertTrue(playerUnderTest.getWinningWord().equals("ABC"));
     }
     
     /**
@@ -126,7 +126,7 @@ public class PlayerTest {
         playerUnderTest.addLetter('a');
         playerUnderTest.addLetter('y');
         playerUnderTest.addLetter('x');
-        assertFalse(playerUnderTest.getWinningWord().toString().equals("YX"));
+        assertFalse(playerUnderTest.getWinningWord().equals("YX"));
     }
     
     /**
@@ -135,10 +135,27 @@ public class PlayerTest {
     @Test
     public void testGetWinningWordWithCorrectWordAndMoreLetters() {
         playerUnderTest.addLetter('a');
-        playerUnderTest.addLetter('y');
         playerUnderTest.addLetter('x');
-        assertTrue(playerUnderTest.isWinner(2));
-        assertTrue(playerUnderTest.getWinningWord().toString().equals("YX"));
+        playerUnderTest.addLetter('y');
+        playerUnderTest.addLetter('z');
+        assertTrue(playerUnderTest.isWinner(3));
+        assertTrue(playerUnderTest.getWinningWord().equals("XYZ"));
+    }
+    
+    /**
+     * Test method for {@link com.fii.homework.model.Player#getWinningWord()}.
+     */
+    @Test
+    public void testGetWinningWordWithCorrectWordAndMoreCorrectWords() {
+        playerUnderTest.addLetter('a');
+        playerUnderTest.addLetter('b');
+        playerUnderTest.addLetter('c');
+        playerUnderTest.addLetter('x');
+        playerUnderTest.addLetter('e');
+        playerUnderTest.addLetter('f');
+        playerUnderTest.addLetter('g');
+        assertTrue(playerUnderTest.isWinner(3));
+        assertTrue(playerUnderTest.getWinningWord().equals("ABC"));
     }
 
     /**
@@ -150,7 +167,7 @@ public class PlayerTest {
         playerUnderTest.addLetter('y');
         playerUnderTest.addLetter('x');
         assertTrue(playerUnderTest.isWinner(3));
-        assertTrue(playerUnderTest.getWinningWord().toString().equals("ZYX"));
+        assertTrue(playerUnderTest.getWinningWord().equals("ZYX"));
     }
 
     /**
@@ -162,6 +179,6 @@ public class PlayerTest {
         playerUnderTest.addLetter('b');
         playerUnderTest.addLetter('d');
         assertFalse(playerUnderTest.isWinner(3));
-        assertTrue(playerUnderTest.getWinningWord().toString().equals(""));
+        assertTrue(playerUnderTest.getWinningWord().equals(""));
     }
 }

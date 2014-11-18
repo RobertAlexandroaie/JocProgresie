@@ -38,22 +38,39 @@ public class Word {
     boolean hasProgression(int requiredWordLength) {
         if (requiredWordLength <= word.length()) {
             if (requiredWordLength == 2) {
-                winningWord = word.toString();
+                winningWord = word.substring(0, 2);
                 hasProgression = true;
                 return hasProgression;
-            }
-            int startLetterIndex = lastLetterIndex - 1;
-            ratio = (word.charAt(lastLetterIndex) - word.charAt(startLetterIndex) + 26) % 26;
-            int nextRatio;
-            while (lastLetterIndex++ - startLetterIndex + 1 < requiredWordLength) {
-                nextRatio = (word.charAt(lastLetterIndex)
+            } else {
+                ratio = (word.charAt(lastLetterIndex)
                         - word.charAt(lastLetterIndex - 1) + 26) % 26;
-                if (nextRatio != ratio) {
+                int nextRatio;
+                int winningWordLength = 2;
+                int startLetterIndex = lastLetterIndex - 1;
+                while (winningWordLength < requiredWordLength
+                        && lastLetterIndex < word.length()-1) {
+                    lastLetterIndex++;
+                    hasProgression = true;
+                    nextRatio = (word.charAt(lastLetterIndex)
+                            - word.charAt(lastLetterIndex - 1) + 26) % 26;
+                    if (nextRatio != ratio) {
+                        ratio = nextRatio;
+                        startLetterIndex = lastLetterIndex - 1;
+                        hasProgression = false;
+                        winningWordLength = 2;
+                    } else {
+                        winningWordLength = lastLetterIndex - startLetterIndex
+                                + 1;
+                    }
+                }
+                if (hasProgression) {
+                    winningWord = word.substring(lastLetterIndex
+                            - requiredWordLength + 1, lastLetterIndex + 1);
+                } else {
                     hasProgression = false;
                     return hasProgression;
                 }
             }
-            winningWord = word.substring(startLetterIndex, lastLetterIndex);
         } else {
             hasProgression = false;
             return hasProgression;
@@ -65,8 +82,8 @@ public class Word {
     /**
      * @return the word
      */
-    public StringBuilder getWord() {
-        return word;
+    public String getWord() {
+        return word.toString();
     }
 
     /**

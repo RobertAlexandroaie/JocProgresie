@@ -43,7 +43,7 @@ public class Player {
      * 
      * @return cuvantul format pana in momentul apelului
      */
-    public StringBuilder getWord() {
+    public String getWord() {
         return word.getWord();
     }
 
