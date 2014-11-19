@@ -1,7 +1,9 @@
 /**
  * 
  */
-package com.fii.homework.model;
+package com.fii.homework.main;
+
+import com.fii.homework.model.Player;
 
 /**
  * @author ralexandroaie
@@ -65,10 +67,17 @@ public class Game {
                         + players[i].getWord());
 
                 if (players[i].isWinner(wordLength)) {
-                    System.out.println("==================== GAME OVER ========================");
-                    System.out.println("Jucatorul " + (i + 1) + " a castigat. Cuvantul format: "
+                    System.out
+                            .println("==================== GAME OVER ========================");
+                    System.out.println("Jucatorul " + (i + 1)
+                            + " a castigat. Cuvantul format: "
                             + players[i].getWinningWord());
-                    System.out.println("Ratia: " + players[i].ratio());
+                    try {
+                        System.out.println("Ratia: " + players[i].ratio());
+                    } catch (IllegalAccessException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
                     gameover = true;
                 }
             }

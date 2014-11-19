@@ -38,7 +38,7 @@ public class PlayerTest {
     public void testAddLetterWithNumber() {
         playerUnderTest.addLetter('2');
     }
-    
+
     /**
      * Test method for {@link com.fii.homework.model.Player#addLetter(char)}.
      */
@@ -47,7 +47,6 @@ public class PlayerTest {
         playerUnderTest.addLetter('a');
         assertTrue(playerUnderTest.getWord().endsWith("A"));
     }
-
 
     /**
      * Test method for {@link com.fii.homework.model.Player#addLetter(char)}.
@@ -68,7 +67,6 @@ public class PlayerTest {
         playerUnderTest.addLetter('d');
         assertFalse(playerUnderTest.isWinner(3));
     }
-    
 
     /**
      * Test method for {@link com.fii.homework.model.Player#isWinner(int)}.
@@ -81,8 +79,6 @@ public class PlayerTest {
         assertFalse(playerUnderTest.isWinner(4));
     }
 
-    
-
     /**
      * Test method for {@link com.fii.homework.model.Player#isWinner(int)}.
      */
@@ -93,7 +89,6 @@ public class PlayerTest {
         playerUnderTest.addLetter('c');
         assertTrue(playerUnderTest.isWinner(3));
     }
-
 
     /**
      * Test method for {@link com.fii.homework.model.Player#getWord()}.
@@ -117,7 +112,7 @@ public class PlayerTest {
         assertTrue(playerUnderTest.isWinner(3));
         assertTrue(playerUnderTest.getWinningWord().equals("ABC"));
     }
-    
+
     /**
      * Test method for {@link com.fii.homework.model.Player#getWinningWord()}.
      */
@@ -128,7 +123,7 @@ public class PlayerTest {
         playerUnderTest.addLetter('x');
         assertFalse(playerUnderTest.getWinningWord().equals("YX"));
     }
-    
+
     /**
      * Test method for {@link com.fii.homework.model.Player#getWinningWord()}.
      */
@@ -141,7 +136,7 @@ public class PlayerTest {
         assertTrue(playerUnderTest.isWinner(3));
         assertTrue(playerUnderTest.getWinningWord().equals("XYZ"));
     }
-    
+
     /**
      * Test method for {@link com.fii.homework.model.Player#getWinningWord()}.
      */
@@ -180,5 +175,38 @@ public class PlayerTest {
         playerUnderTest.addLetter('d');
         assertFalse(playerUnderTest.isWinner(3));
         assertTrue(playerUnderTest.getWinningWord().equals(""));
+    }
+
+    /**
+     * Test method for {@link com.fii.homework.model.Player#ratio()}.
+     */
+    @Test
+    public void testRatioWithWinningWord() {
+        playerUnderTest.addLetter('a');
+        playerUnderTest.addLetter('b');
+        playerUnderTest.addLetter('c');
+        assertTrue(playerUnderTest.isWinner(3));
+        try {
+            assertTrue(playerUnderTest.ratio() == 1);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            fail();
+        }
+    }
+
+    /**
+     * Test method for {@link com.fii.homework.model.Player#ratio()}.
+     */
+    @Test
+    public void testRatioWithNoWinningWord() {
+        playerUnderTest.addLetter('a');
+        playerUnderTest.addLetter('b');
+        playerUnderTest.addLetter('d');
+        try {
+            playerUnderTest.ratio();
+            fail();
+        } catch (IllegalAccessException e) {
+            assertTrue(true);
+        }
     }
 }

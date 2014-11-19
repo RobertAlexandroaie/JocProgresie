@@ -11,12 +11,10 @@ public class Word {
 
     private StringBuilder word;
     private String winningWord;
-    private int ratio;
     private int lastLetterIndex;
     private boolean hasProgression;
 
     public Word() {
-        ratio = 0;
         lastLetterIndex = 1;
         word = new StringBuilder();
         winningWord = "";
@@ -42,13 +40,13 @@ public class Word {
                 hasProgression = true;
                 return hasProgression;
             } else {
-                ratio = (word.charAt(lastLetterIndex)
+                int ratio = (word.charAt(lastLetterIndex)
                         - word.charAt(lastLetterIndex - 1) + 26) % 26;
                 int nextRatio;
                 int winningWordLength = 2;
                 int startLetterIndex = lastLetterIndex - 1;
                 while (winningWordLength < requiredWordLength
-                        && lastLetterIndex < word.length()-1) {
+                        && lastLetterIndex < word.length() - 1) {
                     lastLetterIndex++;
                     hasProgression = true;
                     nextRatio = (word.charAt(lastLetterIndex)
@@ -100,7 +98,13 @@ public class Word {
     /**
      * @return the ratio
      */
-    public int getRatio() {
-        return ratio;
+    public int ratio() throws IllegalAccessException {
+        if (!"".equals(winningWord) && winningWord.length() >= 2) {
+            char firstChar = winningWord.charAt(0);
+            char secondChar = winningWord.charAt(1);
+            return (secondChar - firstChar + 26) % 26;
+        } else {
+            throw new IllegalAccessException();
+        }
     }
 }

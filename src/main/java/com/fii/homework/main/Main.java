@@ -6,8 +6,6 @@ package com.fii.homework.main;
 
 import java.util.Scanner;
 
-import com.fii.homework.model.Game;
-
 /**
  *
  * @author Robert

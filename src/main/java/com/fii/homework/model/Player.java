@@ -56,7 +56,7 @@ public class Player {
         return word.getWinningWord();
     }
 
-    public int ratio() {
-        return word.getRatio();
+    public int ratio() throws IllegalAccessException{
+        return word.ratio();
     }
 }
